@@ -5,6 +5,8 @@ from strawberry.printer import print_schema
 
 
 def test_cyclic_import():
+    global TypeA, TypeB
+
     from .type_a import TypeA
     from .type_b import TypeB
 
@@ -32,3 +34,5 @@ def test_cyclic_import():
     schema = strawberry.Schema(Query)
 
     assert print_schema(schema) == textwrap.dedent(expected).strip()
+
+    del TypeA, TypeB

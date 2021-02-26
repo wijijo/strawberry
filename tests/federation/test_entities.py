@@ -4,6 +4,8 @@ import strawberry
 
 
 def test_fetch_entities():
+    global Product
+
     @strawberry.federation.type(keys=["upc"])
     class Product:
         upc: str
@@ -40,3 +42,5 @@ def test_fetch_entities():
     assert not result.errors
 
     assert result.data == {"_entities": [{"upc": "B00005N5PF"}]}
+
+    del Product

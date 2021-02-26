@@ -10,6 +10,8 @@ class MyExtension(Extension):
 
 
 def test_base_extension():
+    global Person
+
     @strawberry.type
     class Person:
         name: str = "Jess"
@@ -36,8 +38,12 @@ def test_base_extension():
 
     assert result.extensions == {}
 
+    del Person
+
 
 def test_extension():
+    global Person
+
     @strawberry.type
     class Person:
         name: str = "Jess"
@@ -66,9 +72,13 @@ def test_extension():
         "example": "example",
     }
 
+    del Person
+
 
 @pytest.mark.asyncio
 async def test_extension_async():
+    global Person
+
     @strawberry.type
     class Person:
         name: str = "Jess"
@@ -96,3 +106,5 @@ async def test_extension_async():
     assert result.extensions == {
         "example": "example",
     }
+
+    del Person

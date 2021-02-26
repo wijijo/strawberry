@@ -52,6 +52,8 @@ def test_optional():
 
 
 def test_input_simple_required_types():
+    global MyInput
+
     @strawberry.input
     class MyInput:
         s: str
@@ -88,8 +90,12 @@ def test_input_simple_required_types():
 
     assert print_schema(schema) == textwrap.dedent(expected_type).strip()
 
+    del MyInput
+
 
 def test_input_defaults():
+    global MyInput
+
     @strawberry.input
     class MyInput:
         s: Optional[str] = None
@@ -118,8 +124,12 @@ def test_input_defaults():
 
     assert print_schema(schema) == textwrap.dedent(expected_type).strip()
 
+    del MyInput
+
 
 def test_interface():
+    global User
+
     @strawberry.interface
     class Node:
         id: strawberry.ID
@@ -150,3 +160,4 @@ def test_interface():
     schema = strawberry.Schema(query=Query)
 
     assert print_schema(schema) == textwrap.dedent(expected_type).strip()
+    del User

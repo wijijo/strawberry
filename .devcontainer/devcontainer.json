@@ -11,10 +11,11 @@
   },
 
   "extensions": [
-    "ms-python.python",
-    "ms-python.vscode-pylance",
-    "esbenp.prettier-vscode"
-  ],
+	"ms-python.python",
+	"ms-python.vscode-pylance",
+	"esbenp.prettier-vscode",
+	"eamodio.gitlens"
+],
 
   "postCreateCommand": "sh .devcontainer/post-install.sh"
 }

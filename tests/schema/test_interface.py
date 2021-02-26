@@ -4,6 +4,8 @@ import strawberry
 
 
 def test_query_interface():
+    global Cheese
+
     @strawberry.interface
     class Cheese:
         name: str
@@ -43,8 +45,12 @@ def test_query_interface():
         {"canton": "Vaud", "name": "Tomme"},
     ]
 
+    del Cheese
+
 
 def test_interfaces_can_implement_other_interfaces():
+    global Error
+
     @strawberry.interface
     class Error:
         message: str
@@ -93,3 +99,5 @@ def test_interfaces_can_implement_other_interfaces():
         "field": "Password",
         "fix": "Choose more characters",
     }
+
+    del Error

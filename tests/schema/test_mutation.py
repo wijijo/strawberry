@@ -27,6 +27,8 @@ def test_mutation():
 
 
 def test_mutation_with_input_type():
+    global SayInput
+
     @strawberry.input
     class SayInput:
         name: str
@@ -51,8 +53,12 @@ def test_mutation_with_input_type():
     assert not result.errors
     assert result.data["say"] == "Hello Patrick of 10 years old!"
 
+    del SayInput
+
 
 def test_unset_types():
+    global InputExample
+
     @strawberry.type
     class Query:
         hello: str = "Hello"
@@ -87,8 +93,12 @@ def test_unset_types():
     assert result.data["say"] == "Name is unset"
     assert result.data["sayAge"] == "Hello P of age unset!"
 
+    del InputExample
+
 
 def test_unset_types_name_with_underscore():
+    global InputExample
+
     @strawberry.type
     class Query:
         hello: str = "Hello"
@@ -138,6 +148,8 @@ def test_unset_types_name_with_underscore():
     assert result.data["null"] == "Hello Patrick of age None!"
     assert result.data["sayAge"] == "Hello Patrick of age unset!"
 
+    del InputExample
+
 
 def test_unset_types_stringify_empty():
     @strawberry.type
@@ -172,6 +184,8 @@ def test_unset_types_stringify_empty():
 
 
 def test_converting_to_dict_with_unset():
+    global Input
+
     @strawberry.type
     class Query:
         hello: str = "Hello"
@@ -201,3 +215,5 @@ def test_converting_to_dict_with_unset():
 
     assert not result.errors
     assert result.data["say"] == "Hello 🤨"
+
+    del Input

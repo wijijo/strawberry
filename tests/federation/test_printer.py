@@ -7,7 +7,7 @@ import strawberry
 
 
 def test_entities_type_when_no_type_has_keys():
-    global Review
+    global Review, Product, User
 
     @strawberry.federation.type
     class User:
@@ -65,4 +65,4 @@ def test_entities_type_when_no_type_has_keys():
 
     assert schema.as_str() == textwrap.dedent(expected).strip()
 
-    del Review
+    del Review, Product, User

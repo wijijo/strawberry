@@ -5,6 +5,8 @@ import strawberry
 
 
 def test_union_as_field():
+    global A, B
+
     @strawberry.type
     class A:
         a: int
@@ -33,8 +35,12 @@ def test_union_as_field():
     assert not result.errors
     assert result.data["ab"] == {"__typename": "A", "a": 5}
 
+    del A, B
+
 
 def test_cannot_use_non_strawberry_fields_for_the_union():
+    global A, B
+
     @strawberry.type
     class A:
         a: int
@@ -66,8 +72,12 @@ def test_cannot_use_non_strawberry_fields_for_the_union():
         ", are you using a strawberry.field?"
     )
 
+    del A, B
+
 
 def test_union_as_mutation_return():
+    global A, B
+
     @strawberry.type
     class A:
         x: int
@@ -105,8 +115,12 @@ def test_union_as_mutation_return():
     assert not result.errors
     assert result.data["hello"] == {"__typename": "B", "y": 5}
 
+    del A, B
+
 
 def test_types_not_included_in_the_union_are_rejected():
+    global A, B
+
     @strawberry.type
     class Outside:
         c: int
@@ -152,8 +166,12 @@ def test_types_not_included_in_the_union_are_rejected():
         "is not in the list of the types of the union: \"['A', 'B']\""
     )
 
+    del A, B
+
 
 def test_named_union():
+    global Result
+
     @strawberry.type
     class A:
         a: int
@@ -191,8 +209,12 @@ def test_named_union():
     assert result.data["ab"] == {"__typename": "A", "a": 5}
     assert result.data["__type"] == {"kind": "UNION", "description": None}
 
+    del Result
+
 
 def test_named_union_description():
+    global Result
+
     @strawberry.type
     class A:
         a: int
@@ -230,8 +252,12 @@ def test_named_union_description():
     assert result.data["ab"] == {"__typename": "A", "a": 5}
     assert result.data["__type"] == {"kind": "UNION", "description": "Example Result"}
 
+    del Result
+
 
 def test_can_use_union_in_generics():
+    global Result
+
     @strawberry.type
     class A:
         a: int
@@ -268,26 +294,30 @@ def test_can_use_union_in_generics():
     assert not result.errors
     assert result.data["ab"] is None
 
+    del Result
+
 
 def test_multiple_unions():
+    global CoolType, UnionA1, UnionA2, UnionB1, UnionB2
+
+    @strawberry.type
+    class UnionA1:
+        value: int
+
+    @strawberry.type
+    class UnionA2:
+        value: int
+
+    @strawberry.type
+    class UnionB1:
+        value: int
+
+    @strawberry.type
+    class UnionB2:
+        value: int
+
     @strawberry.type
     class CoolType:
-        @strawberry.type
-        class UnionA1:
-            value: int
-
-        @strawberry.type
-        class UnionA2:
-            value: int
-
-        @strawberry.type
-        class UnionB1:
-            value: int
-
-        @strawberry.type
-        class UnionB2:
-            value: int
-
         field1: Union[UnionA1, UnionA2]
         field2: Union[UnionB1, UnionB2]
 
@@ -314,8 +344,12 @@ def test_multiple_unions():
         "name": "CoolType",
     }
 
+    del CoolType, UnionA1, UnionA2, UnionB1, UnionB2
+
 
 def test_union_used_multiple_times():
+    global MyUnion
+
     @strawberry.type
     class A:
         a: int
@@ -350,3 +384,5 @@ def test_union_used_multiple_times():
           field2: MyUnion!
         }"""
     )
+
+    del MyUnion

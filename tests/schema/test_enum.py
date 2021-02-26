@@ -8,6 +8,8 @@ import strawberry
 
 
 def test_enum_resolver():
+    global IceCreamFlavour, Cone
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -48,8 +50,12 @@ def test_enum_resolver():
     assert not result.errors
     assert result.data["cone"]["flavour"] == "STRAWBERRY"
 
+    del IceCreamFlavour, Cone
+
 
 def test_enum_arguments():
+    global IceCreamFlavour, ConeInput
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -98,8 +104,12 @@ def test_enum_arguments():
     assert not result.errors
     assert result.data["eatCone"] is True
 
+    del IceCreamFlavour, ConeInput
+
 
 def test_enum_falsy_values():
+    global IceCreamFlavour, Input
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = ""
@@ -130,8 +140,12 @@ def test_enum_falsy_values():
     assert not result.errors
     assert result.data["printFlavour"] == "0"
 
+    del IceCreamFlavour, Input
+
 
 def test_enum_in_list():
+    global IceCreamFlavour
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -154,8 +168,12 @@ def test_enum_in_list():
     assert not result.errors
     assert result.data["bestFlavours"] == ["STRAWBERRY", "PISTACHIO"]
 
+    del IceCreamFlavour
+
 
 def test_enum_in_optional_list():
+    global IceCreamFlavour
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -178,9 +196,13 @@ def test_enum_in_optional_list():
     assert not result.errors
     assert result.data["bestFlavours"] is None
 
+    del IceCreamFlavour
+
 
 @pytest.mark.asyncio
 async def test_enum_resolver_async():
+    global IceCreamFlavour
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -202,9 +224,13 @@ async def test_enum_resolver_async():
     assert not result.errors
     assert result.data["bestFlavour"] == "STRAWBERRY"
 
+    del IceCreamFlavour
+
 
 @pytest.mark.asyncio
 async def test_enum_in_list_async():
+    global IceCreamFlavour
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -226,3 +252,5 @@ async def test_enum_in_list_async():
 
     assert not result.errors
     assert result.data["bestFlavours"] == ["STRAWBERRY", "PISTACHIO"]
+
+    del IceCreamFlavour

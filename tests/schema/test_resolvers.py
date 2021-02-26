@@ -66,6 +66,8 @@ async def test_resolver_function():
 
 
 def test_resolvers_on_types():
+    global Example
+
     def function_resolver(root) -> str:
         return "I'm a function resolver"
 
@@ -99,6 +101,8 @@ def test_resolvers_on_types():
     assert not result.errors
     assert result.data["example"]["hello"] == "I'm a function resolver"
     assert result.data["example"]["helloWithParams"] == "I'm abc"
+
+    del Example
 
 
 def test_optional_info_and_root_params_function_resolver():

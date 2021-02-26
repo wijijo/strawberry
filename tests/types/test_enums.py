@@ -52,6 +52,8 @@ def test_can_pass_name_and_description():
 
 
 def test_can_use_enum_as_arguments():
+    global IceCreamFlavour
+
     @strawberry.enum
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -67,3 +69,5 @@ def test_can_use_enum_as_arguments():
     field = Query._type_definition.fields[0]
 
     assert field.arguments[0].type._enum_definition
+
+    del IceCreamFlavour

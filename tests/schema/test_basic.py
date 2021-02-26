@@ -38,6 +38,8 @@ def test_basic_schema_optional():
 
 
 def test_basic_schema_types():
+    global User
+
     @strawberry.type
     class User:
         name: str
@@ -54,6 +56,8 @@ def test_basic_schema_types():
 
     assert not result.errors
     assert result.data["user"] is None
+
+    del User
 
 
 def test_does_camel_case_conversion():
@@ -76,6 +80,8 @@ def test_does_camel_case_conversion():
 
 
 def test_can_rename_fields():
+    global Hello
+
     @strawberry.type
     class Hello:
         value: typing.Optional[str] = strawberry.field(name="name")
@@ -103,8 +109,12 @@ def test_can_rename_fields():
     assert result.data["hello"]["name"] == "hi"
     assert result.data["example1"] == "hi"
 
+    del Hello
+
 
 def test_type_description():
+    global TypeA
+
     @strawberry.type(description="Decorator argument description")
     class TypeA:
         a: str
@@ -129,6 +139,8 @@ def test_type_description():
         "name": "TypeA",
         "description": "Decorator argument description",
     }
+
+    del TypeA
 
 
 def test_field_description():
@@ -231,6 +243,8 @@ def test_field_deprecated_reason_subscription():
 
 
 def test_enum_description():
+    global IceCreamFlavour, PizzaType
+
     @strawberry.enum(description="We love ice-creams")
     class IceCreamFlavour(Enum):
         VANILLA = "vanilla"
@@ -274,8 +288,12 @@ def test_enum_description():
 
     assert result.data["pizzas"]["description"] is None
 
+    del IceCreamFlavour, PizzaType
+
 
 def test_parent_class_fields_are_inherited():
+    global Parent, Schema
+
     @strawberry.type
     class Parent:
         cheese: str = "swiss"
@@ -311,10 +329,13 @@ def test_parent_class_fields_are_inherited():
     assert result.data["example"]["friend"] == "food"
     assert result.data["example"]["helloThisIs"] == "patrick"
 
+    del Parent, Schema
+
 
 def test_can_return_compatible_type():
     """Test that we can return a different type that has the same fields,
     for example when returning a Django Model."""
+    global Cheese
 
     @dataclass
     class Example:
@@ -343,8 +364,12 @@ def test_can_return_compatible_type():
     assert not result.errors
     assert result.data["assortment"]["name"] == "Asiago"
 
+    del Cheese
+
 
 def test_init_var():
+    global Category
+
     @strawberry.type
     class Category:
         name: str
@@ -365,8 +390,12 @@ def test_init_var():
     assert not result.errors
     assert result.data["category"]["name"] == "example"
 
+    del Category
+
 
 def test_nested_types():
+    global User
+
     @strawberry.type
     class User:
         name: str
@@ -386,8 +415,12 @@ def test_nested_types():
     assert not result.errors
     assert result.data["user"]["name"] == "Patrick"
 
+    del User
+
 
 def test_multiple_fields_with_same_type():
+    global User
+
     @strawberry.type
     class User:
         name: str
@@ -406,6 +439,8 @@ def test_multiple_fields_with_same_type():
     assert not result.errors
     assert result.data["me"] is None
     assert result.data["you"] is None
+
+    del User
 
 
 def test_str_magic_method_prints_schema_sdl():

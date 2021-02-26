@@ -16,6 +16,8 @@ import strawberry
     [25, 100, 250],
 )
 def test_execute(benchmark, items):
+    global Patron, Pet
+
     birthday = datetime.datetime.now()
     pets = ("cat", "shark", "dog", "lama")
 
@@ -77,3 +79,4 @@ def test_execute(benchmark, items):
     result = benchmark(async_to_sync(schema.execute), query)
     assert not result.errors
     assert len(result.data["patrons"]) == items
+    del Patron, Pet

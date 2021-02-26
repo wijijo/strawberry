@@ -3,6 +3,8 @@ from strawberry.types import Info
 
 
 def test_info_has_the_correct_shape():
+    global Result
+
     my_context = "123"
     root_value = "ABC"
 
@@ -53,3 +55,5 @@ def test_info_has_the_correct_shape():
         "rootEqual": True,
         "variableValues": "{}",
     }
+
+    del Result

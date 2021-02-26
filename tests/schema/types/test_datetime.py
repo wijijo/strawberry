@@ -20,10 +20,13 @@ import strawberry
     ],
 )
 def test_serialization(typing, instance, serialized):
+    global hint
+    hint = typing
+
     @strawberry.type
     class Query:
         @strawberry.field
-        def serialize(self) -> typing:
+        def serialize(self) -> hint:
             return instance
 
     schema = strawberry.Schema(Query)
@@ -32,6 +35,8 @@ def test_serialization(typing, instance, serialized):
 
     assert not result.errors
     assert result.data["serialize"] == serialized
+
+    del hint
 
 
 @pytest.mark.parametrize(
@@ -54,12 +59,15 @@ def test_serialization(typing, instance, serialized):
     ],
 )
 def test_deserialization(typing, name, instance, serialized):
+    global hint
+    hint = typing
+
     @strawberry.type
     class Query:
         deserialized = None
 
         @strawberry.field
-        def deserialize(self, arg: typing) -> bool:
+        def deserialize(self, arg: hint) -> bool:
             Query.deserialized = arg
             return True
 
@@ -72,6 +80,8 @@ def test_deserialization(typing, name, instance, serialized):
 
     assert not result.errors
     assert Query.deserialized == instance
+
+    del hint
 
 
 @pytest.mark.parametrize(
@@ -87,12 +97,15 @@ def test_deserialization(typing, name, instance, serialized):
     ],
 )
 def test_deserialization_with_parse_literal(typing, instance, serialized):
+    global hint
+    hint = typing
+
     @strawberry.type
     class Query:
         deserialized = None
 
         @strawberry.field
-        def deserialize(self, arg: typing) -> bool:
+        def deserialize(self, arg: hint) -> bool:
             Query.deserialized = arg
             return True
 
@@ -105,3 +118,5 @@ def test_deserialization_with_parse_literal(typing, instance, serialized):
 
     assert not result.errors
     assert Query.deserialized == instance
+
+    del hint

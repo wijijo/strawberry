@@ -13,6 +13,8 @@ from strawberry.extensions.tracing.apollo import (
 
 @freeze_time("20120114 12:00:01")
 def test_tracing_sync(mocker):
+    global Person
+
     mocker.patch(
         "strawberry.extensions.tracing.apollo.time.perf_counter_ns", return_value=0
     )
@@ -64,10 +66,14 @@ def test_tracing_sync(mocker):
         }
     }
 
+    del Person
+
 
 @pytest.mark.asyncio
 @freeze_time("20120114 12:00:01")
 async def test_tracing_async(mocker):
+    global Person
+
     mocker.patch(
         "strawberry.extensions.tracing.apollo.time.perf_counter_ns", return_value=0
     )
@@ -132,9 +138,13 @@ async def test_tracing_async(mocker):
         }
     }
 
+    del Person
+
 
 @freeze_time("20120114 12:00:01")
 def test_should_not_trace_introspection_sync_queries(mocker):
+    global Person
+
     mocker.patch(
         "strawberry.extensions.tracing.apollo.time.perf_counter_ns", return_value=0
     )
@@ -166,10 +176,14 @@ def test_should_not_trace_introspection_sync_queries(mocker):
         }
     }
 
+    del Person
+
 
 @pytest.mark.asyncio
 @freeze_time("20120114 12:00:01")
 async def test_should_not_trace_introspection_async_queries(mocker):
+    global Person
+
     mocker.patch(
         "strawberry.extensions.tracing.apollo.time.perf_counter_ns", return_value=0
     )
@@ -200,3 +214,5 @@ async def test_should_not_trace_introspection_async_queries(mocker):
             "parsing": {"startOffset": 0, "duration": 0},
         }
     }
+
+    del Person

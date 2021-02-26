@@ -9,6 +9,8 @@ from strawberry.union import StrawberryUnion
 
 
 def test_unions():
+    global User, Error
+
     @strawberry.type
     class User:
         name: str
@@ -33,8 +35,12 @@ def test_unions():
     assert union_type_definition.name == "UserError"
     assert union_type_definition.types == (User, Error)
 
+    del User, Error
+
 
 def test_unions_inside_optional():
+    global User, Error
+
     @strawberry.type
     class User:
         name: str
@@ -60,8 +66,12 @@ def test_unions_inside_optional():
     assert union_type_definition.name == "UserError"
     assert union_type_definition.types == (User, Error)
 
+    del User, Error
+
 
 def test_unions_inside_list():
+    global User, Error
+
     @strawberry.type
     class User:
         name: str
@@ -87,6 +97,8 @@ def test_unions_inside_list():
     assert union_type_definition.name == "UserError"
     assert union_type_definition.types == (User, Error)
 
+    del User, Error
+
 
 def test_named_union():
     @strawberry.type
@@ -106,6 +118,8 @@ def test_named_union():
 
 
 def test_union_with_generic():
+    global T
+
     T = TypeVar("T")
 
     @strawberry.type
@@ -125,6 +139,8 @@ def test_union_with_generic():
 
     assert union_type_definition.types[1]._type_definition.is_generic is False
     assert union_type_definition.types[1]._type_definition.name == "StrEdge"
+
+    del T
 
 
 def test_cannot_use_union_directly():

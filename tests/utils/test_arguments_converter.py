@@ -130,6 +130,8 @@ def test_optional_list_of_input_types():
 
 
 def test_nested_input_types():
+    global ReleaseFileStatus, ReleaseInfo, ChangeType
+
     @strawberry.enum
     class ChangeType(Enum):
         MAJOR = "major"
@@ -198,8 +200,12 @@ def test_nested_input_types():
         )
     }
 
+    del ReleaseFileStatus, ReleaseInfo, ChangeType
+
 
 def test_nested_list_of_complex_types():
+    global Number
+
     @strawberry.input
     class Number:
         value: int
@@ -216,8 +222,12 @@ def test_nested_list_of_complex_types():
         "input": Input(numbers=[Number(1), Number(2)])
     }
 
+    del Number
+
 
 def test_uses_default_for_optional_types_when_nothing_is_passed():
+    global Number
+
     @strawberry.input
     class Number:
         value: int
@@ -241,8 +251,12 @@ def test_uses_default_for_optional_types_when_nothing_is_passed():
 
     assert convert_arguments(args, arguments) == {"input": Input(UNSET, None)}
 
+    del Number
+
 
 def test_when_optional():
+    global Number
+
     @strawberry.input
     class Number:
         value: int
@@ -261,3 +275,5 @@ def test_when_optional():
     ]
 
     assert convert_arguments(args, arguments) == {}
+
+    del Number

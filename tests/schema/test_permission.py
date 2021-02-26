@@ -77,6 +77,8 @@ async def test_raises_permission_error_for_subscription():
 
 
 def test_can_use_source_when_testing_permission():
+    global User
+
     class CanSeeEmail(BasePermission):
         message = "Cannot see email for this user"
 
@@ -109,8 +111,12 @@ def test_can_use_source_when_testing_permission():
     result = schema.execute_sync(query)
     assert result.errors[0].message == "Cannot see email for this user"
 
+    del User
+
 
 def test_can_use_args_when_testing_permission():
+    global User
+
     class CanSeeEmail(BasePermission):
         message = "Cannot see email for this user"
 
@@ -143,8 +149,12 @@ def test_can_use_args_when_testing_permission():
     result = schema.execute_sync(query)
     assert result.errors[0].message == "Cannot see email for this user"
 
+    del User
+
 
 def test_can_use_on_simple_fields():
+    global User
+
     class CanSeeEmail(BasePermission):
         message = "Cannot see email for this user"
 
@@ -173,3 +183,5 @@ def test_can_use_on_simple_fields():
 
     result = schema.execute_sync(query)
     assert result.errors[0].message == "Cannot see email for this user"
+
+    del User

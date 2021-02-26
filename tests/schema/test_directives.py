@@ -8,6 +8,8 @@ from strawberry.directive import DirectiveLocation
 
 
 def test_supports_default_directives():
+    global Person
+
     @strawberry.type
     class Person:
         name: str = "Jess"
@@ -45,6 +47,8 @@ def test_supports_default_directives():
     assert not result.errors
     assert result.data["person"] == {"name": "Jess", "points": 2000}
 
+    del Person
+
 
 def test_can_declare_directives():
     @strawberry.type
@@ -72,6 +76,8 @@ def test_can_declare_directives():
 
 
 def test_runs_directives():
+    global Person
+
     @strawberry.type
     class Person:
         name: str = "Jess"
@@ -113,9 +119,13 @@ def test_runs_directives():
     assert result.data["jess"]["name"] == "Jessica"
     assert result.data["johnDoe"].get("name") is None
 
+    del Person
+
 
 @pytest.mark.xfail
 def test_runs_directives_with_list_params():
+    global Person
+
     @strawberry.type
     class Person:
         name: str = "Jess"
@@ -145,3 +155,5 @@ def test_runs_directives_with_list_params():
 
     assert not result.errors
     assert result.data["person"]["name"] == "JESS"
+
+    del Person

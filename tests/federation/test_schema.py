@@ -5,6 +5,8 @@ import strawberry
 
 
 def test_entities_type_when_no_type_has_keys():
+    global Product
+
     @strawberry.federation.type()
     class Product:
         upc: str
@@ -37,8 +39,12 @@ def test_entities_type_when_no_type_has_keys():
 
     assert result.data == {"__type": None}
 
+    del Product
+
 
 def test_entities_type():
+    global Product
+
     @strawberry.federation.type(keys=["upc"])
     class Product:
         upc: str
@@ -73,8 +79,12 @@ def test_entities_type():
         "__type": {"kind": "UNION", "possibleTypes": [{"name": "Product"}]}
     }
 
+    del Product
+
 
 def test_additional_scalars():
+    global Example
+
     @strawberry.federation.type(keys=["upc"])
     class Example:
         upc: str
@@ -101,8 +111,12 @@ def test_additional_scalars():
 
     assert result.data == {"__type": {"kind": "SCALAR"}}
 
+    del Example
+
 
 def test_service():
+    global Product
+
     @strawberry.federation.type
     class Product:
         upc: str
@@ -146,8 +160,12 @@ def test_service():
 
     assert result.data == {"_service": {"sdl": textwrap.dedent(sdl).strip()}}
 
+    del Product
+
 
 def test_using_generics():
+    global ListOfProducts, Product, T
+
     T = TypeVar("T")
 
     @strawberry.federation.type
@@ -200,3 +218,4 @@ def test_using_generics():
     """
 
     assert result.data == {"_service": {"sdl": textwrap.dedent(sdl).strip()}}
+    del ListOfProducts, Product, T

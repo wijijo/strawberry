@@ -46,6 +46,8 @@ def test_basic_generic():
 
 
 def test_generics_nested():
+    global Edge
+
     @strawberry.type
     class Edge(Generic[T]):
         node: T
@@ -82,6 +84,8 @@ def test_generics_nested():
     assert definition.fields[0].type._type_definition.name == "StrEdge"
     assert definition.fields[0].is_optional is False
 
+    del Edge
+
 
 def test_generics_name():
     @strawberry.type(name="AnotherName")
@@ -108,6 +112,8 @@ def test_generics_name():
 
 
 def test_generics_nested_in_list():
+    global Edge
+
     @strawberry.type
     class Edge(Generic[T]):
         node: T
@@ -262,6 +268,8 @@ def test_generic_with_list_of_optionals():
 
 
 def test_generics_with_unions():
+    global Error
+
     @strawberry.type
     class Error:
         message: str
@@ -306,8 +314,12 @@ def test_generics_with_unions():
 
     assert definition.fields[0].is_optional is False
 
+    del Error
+
 
 def test_using_generics():
+    global User
+
     @strawberry.type
     class Edge(Generic[T]):
         node: T
@@ -331,8 +343,12 @@ def test_using_generics():
     assert definition.fields[0].type._type_definition.fields[0].name == "node"
     assert definition.fields[0].type._type_definition.fields[0].type == User
 
+    del User
+
 
 def test_using_generics_nested():
+    global Connection, User
+
     @strawberry.type
     class Edge(Generic[T]):
         node: T
@@ -368,6 +384,8 @@ def test_using_generics_nested():
         == "UserEdge"
     )
 
+    del Connection, User
+
 
 def test_using_generics_raises_when_missing_annotation():
     @strawberry.type
@@ -392,6 +410,8 @@ def test_using_generics_raises_when_missing_annotation():
 
 
 def test_using_generics_raises_when_missing_annotation_nested():
+    global Connection
+
     @strawberry.type
     class Edge(Generic[T]):
         node: T
@@ -415,6 +435,8 @@ def test_using_generics_raises_when_missing_annotation_nested():
 
     with pytest.raises(MissingTypesForGenericError, match=error_message):
         Query._type_definition.fields
+
+    del Connection
 
 
 def test_generics_inside_optional():
@@ -444,6 +466,8 @@ def test_generics_inside_optional():
 
 
 def test_generics_inside_list():
+    global Error
+
     @strawberry.type
     class Error:
         message: str
@@ -470,8 +494,12 @@ def test_generics_inside_list():
 
     assert definition.type_params == {}
 
+    del Error
+
 
 def test_generics_inside_unions():
+    global Error
+
     @strawberry.type
     class Error:
         message: str
@@ -499,6 +527,8 @@ def test_generics_inside_unions():
     assert union_definition.name == "StrEdgeError"
     assert union_definition.types[0]._type_definition.name == "StrEdge"
     assert union_definition.types[0]._type_definition.is_generic is False
+
+    del Error
 
 
 def test_multiple_generics_inside_unions():
@@ -533,6 +563,8 @@ def test_multiple_generics_inside_unions():
 
 
 def test_union_inside_generics():
+    global Connection, DogCat
+
     @strawberry.type
     class Dog:
         name: str
@@ -572,8 +604,12 @@ def test_union_inside_generics():
     assert union_definition.types[0]._type_definition.name == "Dog"
     assert union_definition.types[1]._type_definition.name == "Cat"
 
+    del Connection, DogCat
+
 
 def test_anonymous_union_inside_generics():
+    global Connection, Dog, Cat
+
     @strawberry.type
     class Dog:
         name: str
@@ -611,8 +647,12 @@ def test_anonymous_union_inside_generics():
     assert union_definition.types[0]._type_definition.name == "Dog"
     assert union_definition.types[1]._type_definition.name == "Cat"
 
+    del Connection, Dog, Cat
+
 
 def test_using_generics_with_interfaces():
+    global WithName
+
     @strawberry.type
     class Edge(Generic[T]):
         node: T
@@ -635,3 +675,5 @@ def test_using_generics_with_interfaces():
     assert definition.fields[0].type._type_definition.is_generic is False
     assert definition.fields[0].type._type_definition.fields[0].name == "node"
     assert definition.fields[0].type._type_definition.fields[0].type == WithName
+
+    del WithName
